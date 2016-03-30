@@ -1,0 +1,26 @@
+3D-fabrication and prototyping
+Uni. Oulu
+
+30.3.2016
+
+Mitja Kärki
+Antti Rytilahti
+Petri Lukkarinen
+
+
+________Introduction to project_________________
+
+The idea of the project is to build an alarm clock that runs away when the alarm is triggered. Essentially this is a robot.
+Our concept will feature an lcd screen, flashing lights, and a buzzer. The robot will move on continuous track in a similar manner to a tank or a caterpillar.
+As the robot is moving it has to ensure that it doesn't crash into anything. An ultrasound sensor module will be used for that.
+The frame and the continuous track  will be constructed of 4mm plywood by laser cutting, since it is much faster than 3D-printing.
+Some small parts will 3D-printed though.
+
+On the LCD will be printed the current time and the alarm time. The alarm will be set with a rotary controller.
+Our goal is to build a device that is user-friendly and independent of other equipment, such as a computer (to set alarm time etc.).
+We also thought that a robot moving on wheels would be too easy to implement, hence the continuous track is used.
+
+The collision prevention will be implemented with the aforementrioned ultrasound module since we have some modules already and it should be easy enough to use.
+We also considered of using a passive infrared sensor to detect obstacles. 
+
+The continuous track structure is better explained in the image "track_structure.jpg".
