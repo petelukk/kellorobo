@@ -16,7 +16,7 @@ As the robot is moving it has to ensure that it doesn't crash into anything. An 
 The frame and the continuous track  will be constructed of 4mm plywood by laser cutting, since it is much faster than 3D-printing.
 Some small parts will 3D-printed though.
 
-On the LCD will be printed the current time and the alarm time. The alarm will be set with a rotary controller.
+LCD will display current time and alarm time. The alarm will be set with a rotary encoder.
 Our goal is to build a device that is user-friendly and independent of other equipment, such as a computer (to set alarm time etc.).
 We also thought that a robot moving on wheels would be too easy to implement, hence the continuous track is used.
 
