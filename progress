@@ -1,15 +1,17 @@
-Ajankäyttö
 
 
-14.3.16  4h 
-Suunnittelimme alustavasti millainen robotin toiminta tulisi olemaan.
-Meillä ei ollut vielä komponentteja tässä vaiheessa joten suunnittelu meni arvailuksi.
-   -telaketjut
-   -lcd
-   -ultraäänisensori
+-----------------------Progress log:---------------------------
 
-24.3.16  1h
-Git repo pystyyn. Ihmeteltiin komponentteja.
+
+14.3.2016  4h
+Initial planning of device functions. We did not have the components yet so mostly rough ideas.
+   Planned features:
+      -Continuous track
+      -lcd
+      -ultrasonic sensor
+      
+24.3.2016  1h
+Received some of the components. Established github repository.
 
 1.4.2016
 
@@ -34,7 +36,7 @@ See pictures cont_track_test1.jpg and cont_track_test2.jpg
 2.4.16 6h
 Second attempt at making a continuous track
 
-I drew the continuous track elements. Sprocket is not ready yet, but i made some calculations and i know what it should look like.
+We drew the continuous track elements. Sprocket is not ready yet, but i made some calculations and i know what it should look like.
 
 3.4.16 3,5h
 
