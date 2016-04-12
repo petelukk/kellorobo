@@ -63,4 +63,14 @@ We observed that the shaft on our motors are too short and the frame must have a
 That's the best way to have more accessible shaft on a quick schedule.
 
 
+12.4.2016
 
+Got two motor controllers for driving the two motors in both directions. We need to make our own PCB for that.
+PCB requirements and features:
+   -Two A4953 Full bridge motor controllers
+   -Arduino nano compatability
+   -one or two LEDs
+   -piezo (PWM)
+   -Capacitors for A4953's
+   -I²C for lcd screen (HD44780)
+   -Ultrasonic sensor
