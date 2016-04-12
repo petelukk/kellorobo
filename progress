@@ -73,4 +73,4 @@ PCB requirements and features:
    -piezo (PWM)
    -Capacitors for A4953's
    -I²C for lcd screen (HD44780)
-   
+   -Ultrasonic sensor
