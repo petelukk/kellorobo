@@ -13,7 +13,7 @@ Initial planning of device functions. We did not have the components yet so most
 24.3.2016  1h
 Received some of the components. Established github repository.
 
-1.4.2016
+1.4.2016 4h
 
 Continuous track - Proof of consept
 
@@ -63,7 +63,7 @@ We observed that the shaft on our motors are too short and the frame must have a
 That's the best way to have more accessible shaft on a quick schedule.
 
 
-12.4.2016
+12.4.2016 2h
 
 Got two motor controllers for driving the two motors in both directions. We need to make our own PCB for that.
 PCB requirements and features:
@@ -76,6 +76,10 @@ PCB requirements and features:
    -Ultrasonic sensor
 
 
-19.4.
+19.4. 4h
 
-Designing new frame with a more tank-like look.
+Designed a new frame with a more tank-like look. (frame2.pdf)
+The new frame has chamfered ends, a better placement for the motors and more compact design.
+Drawn with inkscape. We cut the frame parts from 4mm plywood and assembled it using some wood glue for the joints.
+The motors fit quite nicely and the overall look is much better than in the first proto.
+There is no lid in the frame since it will be 3D-printed. 
