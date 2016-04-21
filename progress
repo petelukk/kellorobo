@@ -83,3 +83,11 @@ The new frame has chamfered ends, a better placement for the motors and more com
 Drawn with inkscape. We cut the frame parts from 4mm plywood and assembled it using some wood glue for the joints.
 The motors fit quite nicely and the overall look is much better than in the first proto.
 There is no lid in the frame since it will be 3D-printed. 
+
+
+
+21.4. ½ h
+
+Designed a part that holds the motors in place. Used FreeCAD. The holder will be fastened to the bottom of the case with screws.
+Did not 3D-print the part yet since the other printer is broken and the other was reserved at the time.
+
