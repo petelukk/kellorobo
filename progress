@@ -99,6 +99,7 @@ The print came out really nice considering that I used the roughest (0.10mm) lay
 
 2.5.2016
 
-Continuing the pcb design.
+Continuing the pcb design with KiCad.
 The supplied A4953 h-bridge can't be used since it has a supply voltage minimum of 8.0 V 
-and the supplied battery pack is only 7.4V. Thinking of using a dual h-bridge L298 Multiwatt 15.
+and the supplied battery pack is only 7.4V. We decided to use a dual h-bridge L298 Multiwatt 15.
+The PCB is not yet finished, since we had to figure out what components to use. 
