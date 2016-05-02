@@ -95,3 +95,8 @@ Did not 3D-print the part yet since the other printer is broken and the other wa
 
 Printed the motor holder that was designed last time. Used the Formlabs Form 2 SLA 3D-printer with clear resin.
 The print came out really nice considering that I used the roughest (0.10mm) layer thickness. The print took 2 hours to complete. 
+
+
+2.5.2016
+
+Continuing the pcb design. The supplied A4953 h-bridge can't be used since it has a supply voltage minimum of 8.0 V and the supplied battery pack is only 7.4V
