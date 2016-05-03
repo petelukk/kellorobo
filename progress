@@ -97,9 +97,30 @@ Printed the motor holder that was designed last time. Used the Formlabs Form 2 S
 The print came out really nice considering that I used the roughest (0.10mm) layer thickness. The print took 2 hours to complete. 
 
 
-2.5.2016
+2.5.2016 3.5h
 
 Continuing the pcb design with KiCad.
 The supplied A4953 h-bridge can't be used since it has a supply voltage minimum of 8.0 V 
 and the supplied battery pack is only 7.4V. We decided to use a dual h-bridge L298 Multiwatt 15.
 The PCB is not yet finished, since we had to figure out what components to use. 
+
+
+3.5.2016
+
+Case and mechanics:
+
+Glued the gear parts together.Soldered wires to motors.
+Attached the 3D-printed motor holder but it was too flexible so we
+made a motor holder support piece from 4mm acrylic sheet on top of the motor holder.
+Used inkscape to design the part. Some double sided tape was used to help the motors stay in place.
+The continuous track was put on the gears and tightened and adjusted with nuts, bolts and washers. 
+We also tested the track by connecting the motor wires straight to the battery.
+The continuous track rotated quite smoothly. See assembling_frame.jpg images. 
+
+
+
+PCB
+
+
+
+Code
