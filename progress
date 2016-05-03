@@ -117,10 +117,8 @@ The continuous track was put on the gears and tightened and adjusted with nuts, 
 We also tested the track by connecting the motor wires straight to the battery.
 The continuous track rotated quite smoothly. See assembling_frame.jpg images. 
 
-
-
-PCB
-
+PCB 6h
+I drew PCB ready with kicad and modified images to be ready for milling.
 
 
 Code
