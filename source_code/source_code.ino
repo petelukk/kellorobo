@@ -21,7 +21,9 @@ const uint8_t rot_button = 1;
 const uint8_t motor_l_pwm = 5;
 const uint8_t motor_r_pwm = 5;
 const uint8_t motor_l_en1 = 5;
-const uint8_t motor_l_pwm = 5;
+const uint8_t motor_r_en1 = 5;
+const uint8_t motor_l_en2 = 5;
+const uint8_t motor_r_en2 = 5;
 
 
 void main() {
