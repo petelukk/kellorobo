@@ -1,0 +1,39 @@
+EESchema-DOCLIB  Version 2.0  Date: 25/06/2010 10:52:59
+#
+$CMP DISPLAY_GDM1601A
+D Afficheur LCD 16X1 - GDM1601A
+K Afficheur LCD
+F http://www.xmocular.com
+$ENDCMP
+#
+$CMP DISPLAY_HD44780
+D Afficheur LCD 16X2 - HD44780
+K Afficheur LCD
+F http://www.sparkfun.com/datasheets/LCD/HD44780.pdf
+$ENDCMP
+#
+$CMP DISPLAY_MCG1602D
+D Afficheur LCD 16X2 - MCG1602D SERIES
+K Afficheur LCD
+F http://www.everbouquet.com.tw
+$ENDCMP
+#
+$CMP DISPLAY_PC0802-A
+D Afficheur LCD 8X2 - PC0802-A
+K Afficheur LCD
+F http://www.powertip.com.tw
+$ENDCMP
+#
+$CMP DISPLAY_PC2002A-O
+D Afficheur LCD 20X2 - PC2002A-O
+K Afficheur LCD
+F http://www.p-tec.net
+$ENDCMP
+#
+$CMP DISPLAY_PC2004A-L
+D Afficheur LCD 20X4 - PC2004A-L
+K Afficheur LCD
+F http://www.p-tec.net
+$ENDCMP
+#
+#End Doc Library
