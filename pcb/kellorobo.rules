@@ -1,0 +1,115 @@
+
+(rules PCB kellorobo
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 4.2)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.3)
+    )
+  )
+  (rule
+    (width 500.0)
+    (clear 350.2)
+    (clear 250.0 (type smd_to_turn_gap))
+    (clear 87.6 (type smd_smd))
+  )
+  (padstack "Via[0-1]_1500:600_um"
+    (shape
+      (circle F.Cu 1500.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 1500.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (padstack "Via[0-1]_1500:1000_um"
+    (shape
+      (circle F.Cu 1500.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 1500.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_1500:600_um" "Via[0-1]_1500:600_um" default
+  )
+  (via 
+    "Via[0-1]_1500:1000_um" "Via[0-1]_1500:1000_um" default
+  )
+  (via 
+    "Via[0-1]_1500:600_um-kicad_default" "Via[0-1]_1500:600_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_1500:1000_um-kicad_default" "Via[0-1]_1500:1000_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_1500:600_um-thik" "Via[0-1]_1500:600_um" thik
+  )
+  (via 
+    "Via[0-1]_1500:1000_um-thik" "Via[0-1]_1500:1000_um" thik
+  )
+  (via_rule
+    default "Via[0-1]_1500:600_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_1500:600_um-kicad_default"
+  )
+  (via_rule
+    thik "Via[0-1]_1500:1000_um-thik"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 500.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    +5V "Net-(D_LCD1-Pad3)" "lcd_rs" "lcd_enable" "Net-(D_LCD1-Pad7)" "Net-(D_LCD1-Pad8)" "Net-(D_LCD1-Pad9)" "Net-(D_LCD1-Pad10)"
+    "lcd_4" "lcd_5" "lcd_6" "lcd_7" "Net-(D_LCD1-Pad15)" piezo1 piezo2 "Net-(P2-Pad1)"
+    "Net-(P2-Pad2)" "Net-(P3-Pad1)" "Net-(P3-Pad2)" "lcd_led" "Net-(SW1-Pad2)" "rot_sw" "rot_a" "rot_b"
+    "ultra_trig" "Net-(U1-Pad2)" "Net-(U1-Pad3)" "Net-(U1-Pad13)" "Net-(U1-Pad16)" "Net-(U1-Pad18)" in4 in3
+    in2 in1 enb ena "ultra_echo"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 500.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class thik
+    +BATT GND
+    (clearance_class thik)
+    (via_rule thik)
+    (rule
+      (width 1000.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

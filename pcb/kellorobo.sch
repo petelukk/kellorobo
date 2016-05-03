@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:kellorobo-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -34,6 +35,7 @@ LIBS:a4953
 LIBS:ultra-hc-sr04
 LIBS:display_lcd
 LIBS:l298n
+LIBS:kellorobo-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
@@ -115,12 +117,12 @@ ena
 Text GLabel 5900 4350 0    60   Input ~ 0
 enb
 $Comp
-L DISPLAY_HD44780 D_LCD1
+L DISPLAY_HD44780-RESCUE-kellorobo D_LCD1
 U 1 1 57273D75
 P 10050 3900
 F 0 "D_LCD1" H 9050 4150 60  0000 C CNN
 F 1 "DISPLAY_HD44780" H 9800 4300 60  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Angled_1x16" H 10050 3900 60  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x16" H 10050 3900 60  0001 C CNN
 F 3 "" H 10050 3900 60  0000 C CNN
 	1    10050 3900
 	0    1    1    0   
@@ -215,7 +217,7 @@ U 1 1 57274367
 P 8850 4450
 F 0 "RV1" H 8850 4350 50  0000 C CNN
 F 1 "POT" H 8850 4450 50  0000 C CNN
-F 2 "rotary_encoder_en11_hsb:rotary_encoder_EN11_HSB" H 8850 4450 50  0001 C CNN
+F 2 "trimmeri:3165w-203p_trimmeri" H 8850 4450 50  0001 C CNN
 F 3 "" H 8850 4450 50  0000 C CNN
 	1    8850 4450
 	0    1    1    0   
@@ -511,7 +513,7 @@ F 3 "" H 3200 1850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Battery BT1
+L Battery-RESCUE-kellorobo BT1
 U 1 1 57275D04
 P 3200 2000
 F 0 "BT1" H 3300 2050 50  0000 L CNN
