@@ -11,8 +11,8 @@ uint8_t alarm_min = 0;
 const uint8_t piezo_pin1 = 5;
 const uint8_t piezo_pin2 = 4;
 
-const uint8_t rot_pin1 = 3;
-const uint8_t rot_pin2 = 2;
+const uint8_t rot_pin1 = 2;
+const uint8_t rot_pin2 = 3;
 const uint8_t rot_button = 1;
 
 const uint8_t motor_l_pwm = 11;
@@ -51,6 +51,9 @@ void setup()
   digitalWrite(motor_l_en2, LOW);
   digitalWrite(motor_r_en1, LOW);
   digitalWrite(motor_r_en2, LOW);
+
+  Serial.begin(9600);
+  Serial.println("Hello Computer");
 }
 
 int click() // Function to detect click on rotary encoder
@@ -64,11 +67,12 @@ void releaseClick() // Function to wait until user releases button
   {
     click() == 0;
     delay(25);
+    Serial.println ("Click!");
     break;
   }
 }
 
-void doEncoder()  // Taken from http://playground.arduino.cc/Main/RotaryEncoders#Example2
+void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#Example2
 {
   /* If pinA and pinB are both high or both low, it is spinning
    * forward. If they're different, it's going backward.
@@ -76,6 +80,11 @@ void doEncoder()  // Taken from http://playground.arduino.cc/Main/RotaryEncoders
    * For more information on speeding up this process, see
    * [Reference/PortManipulation], specifically the PIND register.
    */
+
+  noInterrupts();
+   
+  Serial.println("Interrupt!");
+  
   if (digitalRead(rot_pin1) == digitalRead(rot_pin2))
   {
     location++;
@@ -91,8 +100,11 @@ void doEncoder()  // Taken from http://playground.arduino.cc/Main/RotaryEncoders
       location--;
     }
   }
+  
+  Serial.println (location);
+  delay(500);
 
-  // Serial.println (encoderPos, DEC);
+  interrupts();
 }
 
 int menu()
@@ -195,7 +207,7 @@ void loop()
 {
   // setup(); This is Arduino, this should be done anyway by default
 
-  // choice = menu();
+  choice = menu();
 
   drive(choice);
 }
