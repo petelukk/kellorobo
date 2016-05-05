@@ -33,7 +33,7 @@ void setup()
   pinMode(piezo_pin2, OUTPUT);
   pinMode(rot_pin1, INPUT_PULLUP);
   pinMode(rot_pin2, INPUT_PULLUP);
-  pinMode(rot_button, INPUT);
+  pinMode(rot_button, INPUT_PULLUP);
   pinMode(motor_l_pwm, OUTPUT);
   pinMode(motor_r_pwm, OUTPUT);
   pinMode(motor_l_en1, OUTPUT);
@@ -43,7 +43,7 @@ void setup()
   
   lcd.begin(16, 2);                          // init display
 
-  attachInterrupt(0, doEncoder, CHANGE);  // encoder pin on interrupt 0 - pin 2
+  attachInterrupt(0, doEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
 
   digitalWrite(motor_l_pwm, LOW); // Motors are set to free run by default
   digitalWrite(motor_r_pwm, LOW);
@@ -102,14 +102,16 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
   }
   
   Serial.println (location);
-  delay(500);
+  delay(25);
 
   interrupts();
 }
 
 int menu()
 {
+  lcd.setCursor(0, 0);
   lcd.print("  fwd <  > rev  ");
+  lcd.setCursor(0, 1);
   lcd.print(" left <  > right");
   lcd.setCursor(6, 0);
 
