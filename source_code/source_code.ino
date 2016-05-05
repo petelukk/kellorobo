@@ -23,7 +23,7 @@ const uint8_t motorB_in3 = 7;
 const uint8_t motorB_in4 = 6;
 
 int choice = 0;
-int location = 0;
+volatile signed int location = 1;
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -43,7 +43,7 @@ void setup()
   
   lcd.begin(16, 2);                          // init display
 
-  attachInterrupt(digitalPinToInterrupt(2), doEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
+  attachInterrupt(digitalPinToInterrupt(2), myEncoderA, FALLING);  // encoder pin on interrupt 0 - pin 2
 
   digitalWrite(motorA_ena, LOW); // Motors are set to free run by default
   digitalWrite(motorB_enb, LOW);
@@ -52,8 +52,8 @@ void setup()
   digitalWrite(motorB_in3, LOW);
   digitalWrite(motorB_in4, LOW);
 
-  //Serial.begin(9600);
-  //Serial.println("Hello Computer");
+  Serial.begin(9600);
+  Serial.println("Hello Computer");
 }
 
 int click() // Function to detect click on rotary encoder
@@ -65,10 +65,12 @@ void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    click() == 0;
-    delay(25);
-    //Serial.println ("Click!");
-    break;
+    if (click() == 1);
+    {
+      delay(25);
+      //Serial.println ("Click!");
+      break;
+    }
   }
 }
 
@@ -83,17 +85,56 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
 
   noInterrupts();
    
-  //Serial.println("Interrupt!");
+  Serial.println("Interrupt!");
   
   if (digitalRead(rot_pin1) == digitalRead(rot_pin2))
   {
-    location++;
+    if (location == 1)
+    {
+      location = 4;
+    }
+    else
+    {
+      location--;
+    }
   }
   else // originally just location--; but changed to take on negative values
   {
-    if (location == 0)
+    if (location == 4)
     {
-      location == 4;
+      location = 1;
+    }
+    else
+    {
+      location++;
+    }
+  }
+  
+  Serial.println(location);
+  delay(5);
+
+  interrupts();
+}
+
+void myEncoderA()
+{
+  noInterrupts();
+  if((PIND >> 3) && (0b00000001))
+  {
+    if (location == 4)
+    {
+      location = 1;
+    }
+    else
+    {
+      location++;
+    }
+  }
+  else
+  {
+    if (location == 1)
+    {
+      location = 4;
     }
     else
     {
@@ -101,9 +142,15 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
     }
   }
   
-  //Serial.println (location);
+  Serial.println(location);
   delay(5);
+  interrupts();
+}
 
+void myEncoderB()
+{
+  noInterrupts();
+  
   interrupts();
 }
 
@@ -115,31 +162,31 @@ int menu()
   lcd.print(" left <  > right");
   lcd.setCursor(6, 0);
 
-  location = 1;
+  // location = 1;
   lcd.blink();
-  delay(3000);
+  //delay(3000);
   
   while(1)
   {
-    if (click() == 1)
+    if (click() == 0)
     {
-      releaseClick();
-      lcd.noBlink();
-      return location;
+//      releaseClick();
+//      lcd.noBlink();
+//      return location;
     }
     else
     {
-      if (location == 0)
+      if (location == 1)
       {
         lcd.setCursor(6, 0);
       }
       
-      else if (location == 1)
+      else if (location == 2)
       {
         lcd.setCursor(9, 0);
       }
       
-      else if (location == 2)
+      else if (location == 4)
       {
         lcd.setCursor(6, 1);
       }
@@ -160,7 +207,7 @@ void drive(int direction)
   digitalWrite(motorA_ena, HIGH);
   digitalWrite(motorB_enb, HIGH);
   
-  if (direction == 0) // Forward
+  if (direction == 1) // Forward
   {
     digitalWrite(motorA_in1, HIGH);
     digitalWrite(motorA_in2, LOW);
@@ -170,7 +217,7 @@ void drive(int direction)
     delay(2000);
   }
   
-  else if (direction == 1) // Backward
+  else if (direction == 2) // Backward
   {
     digitalWrite(motorA_in1, LOW);
     digitalWrite(motorA_in2, HIGH);
@@ -180,7 +227,7 @@ void drive(int direction)
     delay(2000);
   }
   
-  else if (direction == 2) // Left
+  else if (direction == 4) // Left
   {
     digitalWrite(motorA_ena, LOW);
     
