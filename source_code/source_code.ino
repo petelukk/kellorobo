@@ -66,7 +66,7 @@ void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    click() == 0;
+    click() == 1;
     delay(25);
     //Serial.println ("Click!");
     break;
@@ -94,7 +94,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
   {
     if (location == 0)
     {
-      location == 3;
+      location == 4;
     }
     else
     {
@@ -103,7 +103,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
   }
   
   //Serial.println (location);
-  delay(25);
+  delay(5);
 
   interrupts();
 }
@@ -116,8 +116,9 @@ int menu()
   lcd.print(" left <  > right");
   lcd.setCursor(6, 0);
 
-  location = 0;
+  location = 1;
   lcd.blink();
+  delay(3000);
   
   while(1)
   {
@@ -155,7 +156,7 @@ int menu()
 void drive(int direction)
 {
   lcd.clear();
-  lcd.print("CLICK! %d", location);
+  lcd.print("CLICK!");
   
   digitalWrite(motor_l_pwm, HIGH);
   digitalWrite(motor_r_pwm, HIGH);
