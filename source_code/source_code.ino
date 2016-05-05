@@ -24,6 +24,7 @@ const uint8_t motorB_in4 = 6;
 
 int choice = 0;
 volatile signed int location = 1;
+volatile bool rotary_tickB = false;
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -43,7 +44,7 @@ void setup()
   
   lcd.begin(16, 2);                          // init display
 
-  attachInterrupt(digitalPinToInterrupt(2), myEncoderA, FALLING);  // encoder pin on interrupt 0 - pin 2
+  attachInterrupt(digitalPinToInterrupt(2), myEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
 
   digitalWrite(motorA_ena, LOW); // Motors are set to free run by default
   digitalWrite(motorB_enb, LOW);
@@ -116,7 +117,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
   interrupts();
 }
 
-void myEncoderA()
+void myEncoder()
 {
   noInterrupts();
   if((PIND >> 3) && (0b00000001))
@@ -147,10 +148,17 @@ void myEncoderA()
   interrupts();
 }
 
-void myEncoderB()
+void myEncoderA()
 {
   noInterrupts();
   
+  interrupts();
+}
+
+void myEncoderB()
+{
+  noInterrupts();
+  rotary_tickB = true;
   interrupts();
 }
 
