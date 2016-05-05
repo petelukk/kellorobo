@@ -122,3 +122,5 @@ I drew PCB ready with kicad and modified images to be ready for milling.
 
 
 Code
+Started working on software. First goal is to get motors, display and rotary encoder working so that
+robot can move to direction that is selected with display and rotary encoder.
