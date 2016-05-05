@@ -15,16 +15,15 @@ const uint8_t rot_pin1 = 2;
 const uint8_t rot_pin2 = 3;
 const uint8_t rot_button = 1;
 
-const uint8_t motor_l_pwm = 11;
-const uint8_t motor_r_pwm = 10;
-const uint8_t motor_l_en1 = 9;
-const uint8_t motor_l_en2 = 8;
-const uint8_t motor_r_en1 = 7;
-const uint8_t motor_r_en2 = 6;
+const uint8_t motorA_ena = 11;
+const uint8_t motorB_enb = 10;
+const uint8_t motorA_in1 = 9;
+const uint8_t motorA_in2 = 8;
+const uint8_t motorB_in3 = 7;
+const uint8_t motorB_in4 = 6;
 
 int choice = 0;
 int location = 0;
-
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -35,23 +34,23 @@ void setup()
   pinMode(rot_pin1, INPUT_PULLUP);
   pinMode(rot_pin2, INPUT_PULLUP);
   pinMode(rot_button, INPUT_PULLUP);
-  pinMode(motor_l_pwm, OUTPUT);
-  pinMode(motor_r_pwm, OUTPUT);
-  pinMode(motor_l_en1, OUTPUT);
-  pinMode(motor_r_en1, OUTPUT);
-  pinMode(motor_l_en2, OUTPUT);
-  pinMode(motor_r_en2, OUTPUT);
+  pinMode(motorA_ena, OUTPUT);
+  pinMode(motorB_enb, OUTPUT);
+  pinMode(motorA_in1, OUTPUT);
+  pinMode(motorB_in3, OUTPUT);
+  pinMode(motorA_in2, OUTPUT);
+  pinMode(motorB_in4, OUTPUT);
   
   lcd.begin(16, 2);                          // init display
 
   attachInterrupt(digitalPinToInterrupt(2), doEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
 
-  digitalWrite(motor_l_pwm, LOW); // Motors are set to free run by default
-  digitalWrite(motor_r_pwm, LOW);
-  digitalWrite(motor_l_en1, LOW);
-  digitalWrite(motor_l_en2, LOW);
-  digitalWrite(motor_r_en1, LOW);
-  digitalWrite(motor_r_en2, LOW);
+  digitalWrite(motorA_ena, LOW); // Motors are set to free run by default
+  digitalWrite(motorB_enb, LOW);
+  digitalWrite(motorA_in1, LOW);
+  digitalWrite(motorA_in2, LOW);
+  digitalWrite(motorB_in3, LOW);
+  digitalWrite(motorB_in4, LOW);
 
   //Serial.begin(9600);
   //Serial.println("Hello Computer");
@@ -66,7 +65,7 @@ void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    click() == 1;
+    click() == 0;
     delay(25);
     //Serial.println ("Click!");
     break;
@@ -158,55 +157,55 @@ void drive(int direction)
   lcd.clear();
   lcd.print("CLICK!");
   
-  digitalWrite(motor_l_pwm, HIGH);
-  digitalWrite(motor_r_pwm, HIGH);
+  digitalWrite(motorA_ena, HIGH);
+  digitalWrite(motorB_enb, HIGH);
   
   if (direction == 0) // Forward
   {
-    digitalWrite(motor_l_en1, HIGH);
-    digitalWrite(motor_l_en2, LOW);
-    digitalWrite(motor_r_en1, HIGH);
-    digitalWrite(motor_r_en2, LOW);
+    digitalWrite(motorA_in1, HIGH);
+    digitalWrite(motorA_in2, LOW);
+    digitalWrite(motorB_in3, HIGH);
+    digitalWrite(motorB_in4, LOW);
     
     delay(2000);
   }
   
   else if (direction == 1) // Backward
   {
-    digitalWrite(motor_l_en1, LOW);
-    digitalWrite(motor_l_en2, HIGH);
-    digitalWrite(motor_r_en1, LOW);
-    digitalWrite(motor_r_en2, HIGH);
+    digitalWrite(motorA_in1, LOW);
+    digitalWrite(motorA_in2, HIGH);
+    digitalWrite(motorB_in3, LOW);
+    digitalWrite(motorB_in4, HIGH);
     
     delay(2000);
   }
   
   else if (direction == 2) // Left
   {
-    digitalWrite(motor_l_pwm, LOW);
+    digitalWrite(motorA_ena, LOW);
     
-    digitalWrite(motor_r_en1, HIGH);
-    digitalWrite(motor_r_en2, LOW);
+    digitalWrite(motorB_in3, HIGH);
+    digitalWrite(motorB_in4, LOW);
     
     delay(700);
   }
   
   else if (direction == 3) // Right
   {
-    digitalWrite(motor_l_en1, HIGH);
-    digitalWrite(motor_l_en2, LOW);
+    digitalWrite(motorA_in1, HIGH);
+    digitalWrite(motorA_in2, LOW);
     
-    digitalWrite(motor_r_pwm, LOW);
+    digitalWrite(motorB_enb, LOW);
     
     delay(700);
   }
 
-  digitalWrite(motor_l_pwm, LOW);
-  digitalWrite(motor_r_pwm, LOW);
-  digitalWrite(motor_l_en1, LOW);
-  digitalWrite(motor_l_en2, LOW);
-  digitalWrite(motor_r_en1, LOW);
-  digitalWrite(motor_r_en2, LOW);
+  digitalWrite(motorA_ena, LOW);
+  digitalWrite(motorB_enb, LOW);
+  digitalWrite(motorA_in1, LOW);
+  digitalWrite(motorA_in2, LOW);
+  digitalWrite(motorB_in3, LOW);
+  digitalWrite(motorB_in4, LOW);
 }
 
 
