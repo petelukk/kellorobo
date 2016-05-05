@@ -25,6 +25,7 @@ const uint8_t motor_r_en2 = 6;
 int choice = 0;
 int location = 0;
 
+
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
 void setup()
@@ -43,7 +44,7 @@ void setup()
   
   lcd.begin(16, 2);                          // init display
 
-  attachInterrupt(0, doEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
+  attachInterrupt(digitalPinToInterrupt(2), doEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
 
   digitalWrite(motor_l_pwm, LOW); // Motors are set to free run by default
   digitalWrite(motor_r_pwm, LOW);
@@ -52,8 +53,8 @@ void setup()
   digitalWrite(motor_r_en1, LOW);
   digitalWrite(motor_r_en2, LOW);
 
-  Serial.begin(9600);
-  Serial.println("Hello Computer");
+  //Serial.begin(9600);
+  //Serial.println("Hello Computer");
 }
 
 int click() // Function to detect click on rotary encoder
@@ -67,7 +68,7 @@ void releaseClick() // Function to wait until user releases button
   {
     click() == 0;
     delay(25);
-    Serial.println ("Click!");
+    //Serial.println ("Click!");
     break;
   }
 }
@@ -83,7 +84,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
 
   noInterrupts();
    
-  Serial.println("Interrupt!");
+  //Serial.println("Interrupt!");
   
   if (digitalRead(rot_pin1) == digitalRead(rot_pin2))
   {
@@ -101,7 +102,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
     }
   }
   
-  Serial.println (location);
+  //Serial.println (location);
   delay(25);
 
   interrupts();
@@ -109,7 +110,7 @@ void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#E
 
 int menu()
 {
-  lcd.setCursor(0, 0);
+  lcd.clear();
   lcd.print("  fwd <  > rev  ");
   lcd.setCursor(0, 1);
   lcd.print(" left <  > right");
@@ -153,6 +154,9 @@ int menu()
 
 void drive(int direction)
 {
+  lcd.clear();
+  lcd.print("CLICK! %d", location);
+  
   digitalWrite(motor_l_pwm, HIGH);
   digitalWrite(motor_r_pwm, HIGH);
   
