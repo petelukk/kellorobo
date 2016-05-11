@@ -127,12 +127,16 @@ robot can move to direction that is selected with display and rotary encoder.
 
 5.5.2016 6h
 
-   milled the pcb and soldered components.
+   Milled the pcb and soldered components onto it.
 
 11.5.2016 3h
 
    code stuff. tried to light lcd backlight and noticed A6 and A7 pins cannot be used as digital out/input !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
    
-
+   ei näin..........
+   
+   Designed the top lid to house components. Used FreeCAD. Ran out of time, since there are only 24 hours in a day.
+   Therefore, the lid is unfinished. It only needs a hole or two, so 80 % done anyway.
+   
+   
 
