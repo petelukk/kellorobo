@@ -124,3 +124,15 @@ I drew PCB ready with kicad and modified images to be ready for milling.
 Code
 Started working on software. First goal is to get motors, display and rotary encoder working so that
 robot can move to direction that is selected with display and rotary encoder.
+
+5.5.2016 6h
+
+   milled the pcb and soldered components.
+
+11.5.2016 3h
+
+   code stuff. tried to light lcd backlight and noticed A6 and A7 pins cannot be used as digital out/input !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+   
+
+
