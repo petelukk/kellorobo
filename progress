@@ -137,6 +137,18 @@ robot can move to direction that is selected with display and rotary encoder.
    
    Designed the top lid to house components. Used FreeCAD. Ran out of time, since there are only 24 hours in a day.
    Therefore, the lid is unfinished. It only needs a hole or two, so 80 % done anyway.
-   
-   
+
+
+
+26.5.2016
+
+Finished the top lid design and printed it with leapfrog creatr. The print took 3h 17 min with 0.35mm layer thickness to complete.
+Since the part is relatively large, it came away from the print bed a bit. Anyway the print managed to complete with moderate quality.
+15 meters of orange 1.75 mm  PLA filament was used. 
+
+Made wires for the ultrasonic sensor and tested the sensor with an arduino library from 
+http://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/
+It works, yayyy!
+
+
 
