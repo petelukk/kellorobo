@@ -155,3 +155,10 @@ It works, yayyy!
 Did some research on how to construct our software for the robot. 
 Bought 4 pizzas from Tokmanni.
 
+
+
+4.6.2016    3.5h
+
+After eating pizzas from new local känkkylä, we continued our work with demo code.
+After some unsuccessful methods of trying to get reliable readings from rotary encoder, we finally succeeded.
+It was just a debug code that we extended a bit, and it gave mostly good results.
