@@ -1,6 +1,7 @@
 #include <LiquidCrystal.h>
 
-// Kellorobo
+
+//Kellorobo
 
 uint8_t time_h =0;
 uint8_t time_min = 0;
@@ -23,6 +24,7 @@ const uint8_t motorB_in4 = 6;
 
 int choice = 0;
 volatile signed int location = 1;
+volatile bool rotary_tickB = false;
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -73,20 +75,21 @@ void releaseClick() // Function to wait until user releases button
   }
 }
 
-void myEncoder()
+void doEncoder()  // Based on http://playground.arduino.cc/Main/RotaryEncoders#Example2
 {
+  /* If pinA and pinB are both high or both low, it is spinning
+   * forward. If they're different, it's going backward.
+   *
+   * For more information on speeding up this process, see
+   * [Reference/PortManipulation], specifically the PIND register.
+   */
+
   noInterrupts();
-  int i;
-  int sum = 0;
-  int j;
-  //Serial.println("jee");
-  for (i=0; i< 10 ; i++){
-    j = PIND & 0b00001100;
-    //Serial.println(j);
-    sum += j;
-  }
-  Serial.println(sum);
-  if (sum == 0) {
+   
+  Serial.println("Interrupt!");
+  
+  if (digitalRead(rot_pin1) == digitalRead(rot_pin2))
+  {
     if (location == 1)
     {
       location = 4;
@@ -96,7 +99,8 @@ void myEncoder()
       location--;
     }
   }
-  else if (sum == 80) {
+  else // originally just location--; but changed to take on negative values
+  {
     if (location == 4)
     {
       location = 1;
@@ -106,7 +110,55 @@ void myEncoder()
       location++;
     }
   }
-  //delay(5);
+  
+  Serial.println(location);
+  delay(5);
+
+  interrupts();
+}
+
+void myEncoder()
+{
+  noInterrupts();
+  if((PIND >> 3) && (0b00000001))
+  {
+    if (location == 4)
+    {
+      location = 1;
+    }
+    else
+    {
+      location++;
+    }
+  }
+  else
+  {
+    if (location == 1)
+    {
+      location = 4;
+    }
+    else
+    {
+      location--;
+    }
+  }
+  
+  Serial.println(location);
+  delay(5);
+  interrupts();
+}
+
+void myEncoderA()
+{
+  noInterrupts();
+  
+  interrupts();
+}
+
+void myEncoderB()
+{
+  noInterrupts();
+  rotary_tickB = true;
   interrupts();
 }
 
