@@ -67,7 +67,7 @@ void releaseClick() // Function to wait until user releases button
     if (click() == 1);
     {
       delay(25);
-//      Serial.println ("Click!");
+      //Serial.println ("Click!");
       break;
     }
   }
@@ -126,8 +126,7 @@ int menu()
   {
     if (click() == 0)
     {
-      Serial.println("nappi!");
-      releaseClick();
+//      releaseClick();
 //      lcd.noBlink();
 //      return location;
     }
