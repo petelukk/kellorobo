@@ -162,3 +162,10 @@ Bought 4 pizzas from Tokmanni.
 After eating pizzas from new local känkkylä, we continued our work with demo code.
 After some unsuccessful methods of trying to get reliable readings from rotary encoder, we finally succeeded.
 It was just a debug code that we extended a bit, and it gave mostly good results.
+
+
+
+7.6.2016    4h
+
+Further testing of rotary encoder, and debugging rotary encoder's button. After debugging it with different codes and some DMM
+measurements, we found out that it had bad pin definition. Button works now.
