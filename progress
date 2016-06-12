@@ -168,4 +168,7 @@ It was just a debug code that we extended a bit, and it gave mostly good results
 7.6.2016    4h
 
 Further testing of rotary encoder, and debugging rotary encoder's button. After debugging it with different codes and some DMM
-measurements, we found out that it had bad pin definition. Button works now.
+measurements, we found out that it had bad pin definition. Button works now. 
+Assembled the case and fit all the parts in.
+The top lid print quality was absolutely horrible, so some of the holes needed to be carved a bit bigger. 
+We also printed the knob for the rotary encoder. Took about 15 minutes with the Leapfrog.
