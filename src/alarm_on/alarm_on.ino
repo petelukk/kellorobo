@@ -78,10 +78,7 @@ void change_direction()
       digitalWrite(motorB_in4, HIGH);
       turn_right = true;
       delay(turn_time);
-      digitalWrite(motorA_in1, HIGH);         // continue going straight
-      digitalWrite(motorA_in2, LOW);
-      digitalWrite(motorB_in3, HIGH);
-      digitalWrite(motorB_in4, LOW);       
+      drive_fwd();       
     }
   else
     {
@@ -91,21 +88,25 @@ void change_direction()
       digitalWrite(motorB_in4, LOW);
       turn_right = false;
       delay(turn_time);
-      digitalWrite(motorA_in1, HIGH);         // continue going straight
-      digitalWrite(motorA_in2, LOW);
-      digitalWrite(motorB_in3, HIGH);
-      digitalWrite(motorB_in4, LOW);
+      drive_fwd();
     }  
 }
-  
 
+void drive_fwd()                              // set robot to drive forwards
+{       
+  digitalWrite(motorA_in1, HIGH);
+  digitalWrite(motorA_in2, LOW);
+  digitalWrite(motorB_in3, HIGH);
+  digitalWrite(motorB_in4, LOW);
+}      
+      
 int calc_distance()
   {
     uint16_t dist;
     unsigned long dur;
     
   
-      // Sets the trigPin on HIGH state for 10 micro seconds
+      // Sets the trigPin on HIGH state for 10 microseconds
     digitalWrite(ultra_trig, HIGH);
     delayMicroseconds(100);
     digitalWrite(ultra_trig, LOW);
@@ -124,31 +125,29 @@ void alarmOn()                        // called when alarm rings
   digitalWrite(motorA_ena, HIGH);     // set motor power pins high
   digitalWrite(motorB_ena, HIGH);
 
-  digitalWrite(motorA_in1, HIGH);     // set motor signal pins high. Robot should now go straight forwards
-  digitalWrite(motorB_in3, HIGH);     // change these if robot goes in the wrong direction
+  drive_fwd();
 
   digitalWrite(ultra_trig, LOW);      // init
   delayMicroseconds(2);
   
   
-  while(ultra_distance >= 15)
+  while(ultra_distance >= 15)         // in cm
   {
     ultra_distance = calc_distance();
+    playsound();
   }
+  ultra_distance = 0xffff;
   change_direction();
 
-  // unfinished ---- mitja 29.6.2016
-    
+}
 
-
-
+void playsound()
+{
+  digitalWrite(piezo_pin2, LOW);
+  tone(piezo_pin1, 1000, 50);     // 1000 Hz pwm for 50 ms
   
 }
 
 
 
-
-
-  
-
-
+// unfinished 6.7.2016, mitja
