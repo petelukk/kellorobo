@@ -11,8 +11,8 @@ const uint8_t rot_button = 1;
 int rot_pos = 128;
 
 volatile uint8_t screen = 0; // 0 = aika, 1 = heratys, 2 = demo
-char temp1[16];
 char temp2[16];
+char temp1[16];
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
 void setup() {
@@ -51,76 +51,27 @@ void myEncoder()
 
 void menu() {
   lcd.clear();
-  sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
-  lcd.print(temp1);
-  uint8_t prev_pos = rot_pos; 
 
   while(1)
   {
-    if(rot_pos < prev_pos)
-    {
-      if(screen == 1) {
-        sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
-        sprintf(temp2, "                ");
-      }
-      else if(screen == 2) {
-        sprintf(temp1, "Heratys on %02d:%02d", alarm_h, alarm_min);
-        sprintf(temp2, "*Onko ajastettu?*");
-      }
-      else if(screen == 0) {
-        sprintf(temp1, "Paina ajaaksesi ");
-        sprintf(temp2, "      demo      ");
-      }
-      lcd.setCursor(16, 0);
-      lcd.print(temp1);
-      lcd.setCursor(16, 1);
-      lcd.print(temp2);
-      for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
-        // scroll one position left:
-        lcd.scrollDisplayLeft();
-        // wait a bit:
-        delay(90);
-      }
-      if (screen == 0) {
-        screen = 2;
-      }
-      else {
-        screen--;
-      }
-      prev_pos = rot_pos;
+//    lcd.print(rot_pos % 3);
+    if(rot_pos % 3 == 0) {
+      sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
+      sprintf(temp2, "                ");
     }
-    else if (rot_pos > prev_pos)
-    {
-      if(screen == 2) {
-        sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
-        sprintf(temp2, "                ");
-      }
-      else if(screen == 0) {
-        sprintf(temp1, "Heratys on %02d:%02d", alarm_h, alarm_min);
-        sprintf(temp2, "*Onko ajastettu?*");
-      }
-      else if(screen == 1) {
-        sprintf(temp1, "Paina ajaaksesi ");
-        sprintf(temp2, "      demo      ");
-      }
-      lcd.setCursor(-16, 0);
-      lcd.print(temp1);
-      lcd.setCursor(-16, 1);
-      lcd.print(temp2);
-      for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
-        // scroll one position left:
-        lcd.scrollDisplayRight();
-        // wait a bit:
-        delay(90);
-      }     
-      if (screen == 2) {
-        screen = 0;
-      }
-      else {
-        screen++;
-      }
-      prev_pos = rot_pos;
+    else if(rot_pos % 3 == 1) {
+      sprintf(temp1, "Heratys on %02d:%02d", alarm_h, alarm_min);
+      sprintf(temp2, "?Onko ajastettu?");
     }
+    else {
+      sprintf(temp1, "Paina ajaaksesi ");
+      sprintf(temp2, "      demo      ");
+    }
+    lcd.setCursor(0, 0);
+    lcd.print(temp1);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    delay(200);
   }
 }
 
@@ -128,5 +79,5 @@ void loop() {
   // put your main code here, to run repeatedly:
   
   menu();
-  delay(50);
+  delay(200);
 }
