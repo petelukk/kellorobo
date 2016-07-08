@@ -2,17 +2,17 @@
 
 // Kellorobo
 
-uint8_t time_h =0;
-uint8_t time_min = 0;
-uint8_t alarm_h =0;
-uint8_t alarm_min = 0;
+uint8_t time_h =12;
+uint8_t time_min = 34;
+uint8_t alarm_h =98;
+uint8_t alarm_min = 76;
 
 const uint8_t piezo_pin1 = 5;
 const uint8_t piezo_pin2 = 4;
 
 const uint8_t rot_pin1 = 2;
 const uint8_t rot_pin2 = 3;
-const uint8_t rot_button = 1;
+const uint8_t rot_button = 0;
 
 const uint8_t motorA_ena = 11;
 const uint8_t motorB_enb = 10;
@@ -21,8 +21,17 @@ const uint8_t motorA_in2 = 8;
 const uint8_t motorB_in3 = 7;
 const uint8_t motorB_in4 = 6;
 
+// menu related
+int rot_pos = 128;
+volatile uint8_t screen = 0; // 0 = aika, 1 = heratys, 2 = demo
+char temp1[17];
+char temp2[17];
 int choice = 0;
 volatile signed int location = 1;
+
+//alarm related
+
+//time related
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -64,10 +73,10 @@ void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    if (click() == 1);
+    if (click() == 1)
     {
       delay(25);
-      //Serial.println ("Click!");
+//      Serial.println ("Click!");
       break;
     }
   }
@@ -110,52 +119,33 @@ void myEncoder()
   interrupts();
 }
 
-int menu()
-{
+void menu() {
   lcd.clear();
-  lcd.print("  fwd <  > rev  ");
-  lcd.setCursor(0, 1);
-  lcd.print(" left <  > right");
-  lcd.setCursor(6, 0);
 
-  // location = 1;
-  lcd.blink();
-  //delay(3000);
-  
   while(1)
   {
-    if (click() == 0)
-    {
-//      releaseClick();
-//      lcd.noBlink();
-//      return location;
+//    lcd.print(rot_pos % 3);
+    if(rot_pos % 3 == 0) {
+      sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
+      sprintf(temp2, "                ");
     }
-    else
-    {
-      if (location == 1)
-      {
-        lcd.setCursor(6, 0);
-      }
-      
-      else if (location == 2)
-      {
-        lcd.setCursor(9, 0);
-      }
-      
-      else if (location == 4)
-      {
-        lcd.setCursor(6, 1);
-      }
-      
-      else if (location == 3)
-      {
-        lcd.setCursor(9, 1);
-      }
+    else if(rot_pos % 3 == 1) {
+      sprintf(temp1, "Heratys on %02d:%02d", alarm_h, alarm_min);
+      sprintf(temp2, "?Onko ajastettu?");
     }
+    else {
+      sprintf(temp1, "Paina ajaaksesi ");
+      sprintf(temp2, "      demo      ");
+    }
+    lcd.setCursor(0, 0);
+    lcd.print(temp1);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    delay(200);
   }
 }
 
-void drive(int direction)
+void demodrive(int direction)
 {
   lcd.clear();
   lcd.print("CLICK!");
@@ -216,8 +206,7 @@ void loop()
 {
   // setup(); This is Arduino, this should be done anyway by default
 
-  choice = menu();
-
-  drive(choice);
+  menu();
+  delay(200); // unnecessary?
 }
 
