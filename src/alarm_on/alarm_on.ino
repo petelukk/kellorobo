@@ -3,11 +3,12 @@
 
 // Kellorobo
 
-uint8_t time_h =0;
-uint8_t time_min = 0;
-uint8_t alarm_h =0;
-uint8_t alarm_min = 0;
-
+uint8_t   time_h = 0;
+uint8_t   time_min = 0;
+uint8_t   alarm_h = 0;
+uint8_t   alarm_min = 0;
+uint16_t  dist = 0xffff;
+unsigned long dur;
 
 const uint8_t ultra_trig  = 13;    // ultrasonic sensor pins
 const uint8_t ultra_echo  = 12;
@@ -28,11 +29,11 @@ const uint8_t rot_button  = 1;
 
 const uint8_t turn_time   = 700;    // milliseconds, 700 = hattuvakio
 
-int choice = 0;
-volatile signed int location = 1;
 
 
-bool turn_right = false;          // for motors
+
+bool alarm            = true;
+bool turn_right_bool  = false;          // for motors
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
@@ -49,7 +50,7 @@ void setup()
   pinMode(motorB_in3,   OUTPUT);
   pinMode(motorA_in2,   OUTPUT);
   pinMode(motorB_in4,   OUTPUT);
-  
+
   lcd.begin(16, 2);                          // init display
 
   //attachInterrupt(digitalPinToInterrupt(2), myEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
@@ -63,91 +64,115 @@ void setup()
 
   pinMode(ultra_trig,      OUTPUT);   // init ultrasound pins
   pinMode(ultra_echo,      INPUT);
-  
-  Serial.begin(9600);
-  
+
+  // Serial.begin(9600);
+
 }
 
 void change_direction()
 {
-  if(turn_right == false)
-    {
-      digitalWrite(motorA_in1, HIGH);         // turn
-      digitalWrite(motorA_in2, LOW);
-      digitalWrite(motorB_in3, LOW);
-      digitalWrite(motorB_in4, HIGH);
-      turn_right = true;
-      delay(turn_time);
-      drive_fwd();       
-    }
+  if (turn_right == false)
+  {
+    turn_left();
+    delay(turn_time);
+    turn_right_bool = true;
+    drive_fwd();
+  }
   else
-    {
-      digitalWrite(motorA_in1, LOW);          // turn
-      digitalWrite(motorA_in2, HIGH);
-      digitalWrite(motorB_in3, HIGH);
-      digitalWrite(motorB_in4, LOW);
-      turn_right = false;
-      delay(turn_time);
-      drive_fwd();
-    }  
+  {
+    turn_right();
+    turn_right_bool = false;
+    delay(turn_time);
+    drive_fwd();
+  }
 }
 
 void drive_fwd()                              // set robot to drive forwards
-{       
+{
   digitalWrite(motorA_in1, HIGH);
   digitalWrite(motorA_in2, LOW);
   digitalWrite(motorB_in3, HIGH);
   digitalWrite(motorB_in4, LOW);
-}      
-      
-int calc_distance()
-  {
-    uint16_t dist;
-    unsigned long dur;
-    
+}
+
+void turn_right()
+{
+  digitalWrite(motorA_in1, LOW);
+  digitalWrite(motorA_in2, HIGH);
+  digitalWrite(motorB_in3, HIGH);
+  digitalWrite(motorB_in4, LOW);
+}
+
+void turn_left()
+{
+  digitalWrite(motorA_in1, HIGH);
+  digitalWrite(motorA_in2, LOW);
+  digitalWrite(motorB_in3, LOW);
+  digitalWrite(motorB_in4, HIGH);
+}
+
+void stop_motors()
+{
+  digitalWrite(motorA_ena, LOW);     // set all motor pins low
+  digitalWrite(motorB_ena, LOW);
+  digitalWrite(motorA_in1, LOW);
+  digitalWrite(motorA_in2, LOW);
+  digitalWrite(motorB_in3, LOW);
+  digitalWrite(motorB_in4, LOW);
+}
+
+void calc_distance()
+{
   
-      // Sets the trigPin on HIGH state for 10 microseconds
+  while (dist >= 15)        // in cm
+  {
+    if (digitalRead(rot_button) == LOW)      // pin is low when button is pressed
+    {
+      alarm = false;
+    }
+    playsound();
+
+    // Sets the trigPin on HIGH state for 100 microseconds
     digitalWrite(ultra_trig, HIGH);
     delayMicroseconds(100);
     digitalWrite(ultra_trig, LOW);
-    
+
     // Reads the echoPin, returns the sound wave travel time in microseconds
     dur = pulseIn(ultra_echo, HIGH);
-    
-    // Calculating the distance
-    dist = dur*0.034/2;
-    return dist;                      // in cm
+
+    // Calculating the distance in cm
+    dist = dur * 0.034 / 2;
   }
-void alarmOn()                        // called when alarm rings
-{ 
-  uint16_t ultra_distance = 0xffff;
-                                       
+
+}
+
+
+void loop() // RENAME THIS TO alarm_on() IN FINAL VERSION  // called when alarm rings
+{
+
   digitalWrite(motorA_ena, HIGH);     // set motor power pins high
   digitalWrite(motorB_ena, HIGH);
 
   drive_fwd();
 
   digitalWrite(ultra_trig, LOW);      // init
-  delayMicroseconds(2);
-  
-  
-  while(ultra_distance >= 15)         // in cm
-  {
-    ultra_distance = calc_distance();
-    playsound();
-  }
-  ultra_distance = 0xffff;
-  change_direction();
+  delay(100);
 
+  while (alarm)
+  {
+    calc_distance();
+    change_direction();
+    dist = 0xffff;
+  }
+    stop_motors();
 }
 
 void playsound()
 {
   digitalWrite(piezo_pin2, LOW);
   tone(piezo_pin1, 1000, 50);     // 1000 Hz pwm for 50 ms
-  
 }
 
 
 
-// unfinished 6.7.2016, mitja
+// mitja 8.7.2016
