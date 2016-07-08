@@ -11,8 +11,8 @@ const uint8_t rot_button = 1;
 int rot_pos = 128;
 
 volatile uint8_t screen = 0; // 0 = aika, 1 = heratys, 2 = demo
-char temp2[16];
-char temp1[16];
+char temp1[17];
+char temp2[17];
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
 
 void setup() {
