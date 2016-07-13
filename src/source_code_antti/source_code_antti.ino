@@ -28,12 +28,11 @@ const uint8_t ultra_trig  = 13;    // ultrasonic sensor pins
 const uint8_t ultra_echo  = 12;
 
 // menu related
-int rot_pos = 128;
+volatile int rot_pos = 128;
 volatile uint8_t screen = 0; // 0 = aika, 1 = heratys, 2 = demo
 char temp1[17];
 char temp2[17];
 int choice = 0;
-volatile signed int location = 1;
 
 //alarm related
 uint16_t  dist = 0xffff;
@@ -92,7 +91,6 @@ void releaseClick() // Function to wait until user releases button
     if (click() == 1)
     {
       Alarm.delay(25);
-//      Serial.println ("Click!");
       break;
     }
   }
@@ -104,32 +102,16 @@ void myEncoder()
   int i;
   int sum = 0;
   int j;
-  //Serial.println("jee");
   for (i=0; i< 10 ; i++){
     j = PIND & 0b00001100;
-    //Serial.println(j);
     sum += j;
   }
-  // Serial.println(sum);
+  Serial.println(sum);
   if (sum == 0) {
-    if (location == 1)
-    {
-      location = 4;
-    }
-    else
-    {
-      location--;
-    }
+    rot_pos--;
   }
   else if (sum == 80) {
-    if (location == 4)
-    {
-      location = 1;
-    }
-    else
-    {
-      location++;
-    }
+    rot_pos++;
   }
   //delay(5);
   interrupts();
@@ -139,7 +121,7 @@ void menu() {
   lcd.clear();
 
   if(rot_pos % 3 == 0) {
-    sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
+    sprintf(temp1, " Kello on %02d:%02d ", hms[0], hms[1]);
     sprintf(temp2, "                ");
   }
   else if(rot_pos % 3 == 1) {
@@ -221,7 +203,7 @@ void set_time(int hours, int minutes)
   tm.Day = 1;
   tm.Hour = hours;
   tm.Minute = minutes;
-  tm.Second = 0;
+  tm.Second = 55;
   setTime(makeTime(tm));
 }
 
@@ -337,8 +319,13 @@ void alarm_on() // called when alarm rings
     calc_distance();
     change_direction();
     dist = 0xffff;
+//    if(digitalRead(rot_button) == 0)
+//    {
+//      releaseClick();
+//      alarm = false;
+//    }
   }
-    stop_motors();
+  stop_motors();
 }
 
 void loop()
@@ -351,8 +338,8 @@ void loop()
   {
     alarm_on();
   }
-  char stringi[9];
-  sprintf(stringi, "%02d:%02d:%02d", hms[0], hms[1], hms[2]);
+//  char stringi[9];
+//  sprintf(stringi, "%02d:%02d:%02d", hms[0], hms[1], hms[2]);
   menu();
 }
 
