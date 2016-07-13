@@ -5,16 +5,16 @@
 
 // Kellorobo
 
-uint8_t time_h = 12;
-uint8_t time_min = 34;
-uint8_t alarm_h =98;
+uint8_t time_h    = 12;
+uint8_t time_min  = 34;
+uint8_t alarm_h   = 98;
 uint8_t alarm_min = 76;
 
 const uint8_t piezo_pin1 = 5;
 const uint8_t piezo_pin2 = 4;
 
-const uint8_t rot_pin1 = 2; // rotary encoder pins
-const uint8_t rot_pin2 = 3;
+const uint8_t rot_pin1   = 2; // rotary encoder pins
+const uint8_t rot_pin2   = 3;
 const uint8_t rot_button = 0;
 
 const uint8_t motorA_ena = 11;  // motor pins
@@ -24,8 +24,8 @@ const uint8_t motorA_in2 = 8;
 const uint8_t motorB_in3 = 7;
 const uint8_t motorB_in4 = 6;
 
-const uint8_t ultra_trig  = 13;    // ultrasonic sensor pins
-const uint8_t ultra_echo  = 12;
+const uint8_t ultra_trig = 13;    // ultrasonic sensor pins
+const uint8_t ultra_echo = 12;
 
 // menu related
 int rot_pos = 128;
@@ -35,25 +35,27 @@ char temp2[17];
 int choice = 0;
 volatile signed int location = 1;
 
-//alarm related
+//alarm related variables
 uint16_t  dist = 0xffff;
 unsigned long dur;
 const uint16_t turn_time   = 700;    // milliseconds, 700 = hattuvakio
+
 bool alarm            = true;
 bool turn_right_bool  = false;          // for motors
 
 //time related
 uint8_t alarm_time[2] = {13,80}; // hours and minutes
-uint8_t hms[3] = {0,0,0}; //hours minutes and seconds  
+uint8_t hms[3]        = {0,0,0}; //hours minutes and seconds  
 
 LiquidCrystal lcd(A5, A4, A0, A1, A2, A3); //RS, EN, D4, D5, D6, D7
+                 // arduino pins           // LCD PINS
 
 void setup()
 {
-  pinMode(piezo_pin1, OUTPUT);
+  pinMode(piezo_pin1, OUTPUT);      // initialize pins
   pinMode(piezo_pin2, OUTPUT);
-  pinMode(rot_pin1, INPUT_PULLUP);
-  pinMode(rot_pin2, INPUT_PULLUP);
+  pinMode(rot_pin1,   INPUT_PULLUP);
+  pinMode(rot_pin2,   INPUT_PULLUP);
   pinMode(rot_button, INPUT_PULLUP);
   pinMode(motorA_ena, OUTPUT);
   pinMode(motorB_ena, OUTPUT);
@@ -62,20 +64,14 @@ void setup()
   pinMode(motorA_in2, OUTPUT);
   pinMode(motorB_in4, OUTPUT);
 
-  pinMode(ultra_trig,      OUTPUT);   // init ultrasound pins
-  pinMode(ultra_echo,      INPUT);
+  pinMode(ultra_trig, OUTPUT);
+  pinMode(ultra_echo, INPUT);
   
   lcd.begin(16, 2);                          // init display
 
   attachInterrupt(digitalPinToInterrupt(2), myEncoder, FALLING);  // encoder pin on interrupt 0 - pin 2
-
-  digitalWrite(motorA_ena, LOW); // Motors are set to free run by default
-  digitalWrite(motorB_ena, LOW);
-  digitalWrite(motorA_in1, LOW);
-  digitalWrite(motorA_in2, LOW);
-  digitalWrite(motorB_in3, LOW);
-  digitalWrite(motorB_in4, LOW);
-
+  
+  stop_motors();
   set_time(0,0);
   set_alarm(0,1);
 }
@@ -104,13 +100,13 @@ void myEncoder()
   int i;
   int sum = 0;
   int j;
-  //Serial.println("jee");
+  
   for (i=0; i< 10 ; i++){
     j = PIND & 0b00001100;
     //Serial.println(j);
     sum += j;
   }
-  // Serial.println(sum);
+  
   if (sum == 0) {
     if (location == 1)
     {
@@ -139,16 +135,16 @@ void menu() {
   lcd.clear();
 
   if(rot_pos % 3 == 0) {
-    sprintf(temp1, " Kello on %02d:%02d ", time_h, time_min);
+    sprintf(temp1, " Time is %02d:%02d ", time_h, time_min);
     sprintf(temp2, "                ");
   }
   else if(rot_pos % 3 == 1) {
-    sprintf(temp1, "Heratys on %02d:%02d", alarm_h, alarm_min);
-    sprintf(temp2, "?Onko ajastettu?");
+    sprintf(temp1, "Alarm time %02d:%02d", alarm_h, alarm_min);
+    sprintf(temp2, "Alarm on/off");
   }
   else {
-    sprintf(temp1, "Paina ajaaksesi ");
-    sprintf(temp2, "      demo      ");
+    sprintf(temp1, " Push button to ");
+    sprintf(temp2, "   start demo   ");
   }
   lcd.setCursor(0, 0);
   lcd.print(temp1);
@@ -243,7 +239,7 @@ void set_alarm(int hours, int minutes)
 
 void change_direction()
 {
-  if (turn_right == false)
+  if (turn_right_bool == false)
   {
     turn_left();
     Alarm.delay(turn_time);
@@ -303,7 +299,7 @@ void calc_distance()
     }
     playsound();
 
-    // Sets the trigPin on HIGH state for 100 microseconds
+    // Sets the trigPin on HIGH state for 1 millisecond
     digitalWrite(ultra_trig, HIGH);
     Alarm.delay(1);
     digitalWrite(ultra_trig, LOW);
@@ -319,7 +315,7 @@ void calc_distance()
 void playsound()
 {
   digitalWrite(piezo_pin2, LOW);
-  tone(piezo_pin1, 1000, 50);     // 1000 Hz pwm for 50 ms
+  tone(piezo_pin1, 2500, 50);     // 2500 Hz pwm for 50 ms
 }
 
 void alarm_on() // called when alarm rings
