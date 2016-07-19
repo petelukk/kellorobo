@@ -22,7 +22,7 @@ void setup() {
 }
 
 void loop() {
-    sei();
+//    sei();
     for(;;)
     {
       ;
