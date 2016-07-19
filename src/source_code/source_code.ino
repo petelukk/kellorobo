@@ -2,13 +2,9 @@
 #include <TimeAlarms.h>
 #include <Time.h>
 #include <TimeLib.h>
+#include <avr/interrupt.h>
 
 // Kellorobo
-
-uint8_t time_h    = 12;
-uint8_t time_min  = 34;
-uint8_t alarm_h   = 98;
-uint8_t alarm_min = 76;
 
 const uint8_t piezo_pin1 = 5;
 const uint8_t piezo_pin2 = 4;
@@ -28,16 +24,17 @@ const uint8_t ultra_trig = 13;    // ultrasonic sensor pins
 const uint8_t ultra_echo = 12;
 
 // menu related
-volatile unsigned int rot_pos = 128;
-volatile uint8_t screen = 0; // 0 = time, 1 = alarm, 2 = demo
-char temp1[17];
-char temp2[17];
-int choice = 0;
+volatile unsigned int rot_pos   = 128;
+bool                  rot_press = HIGH;
+volatile uint8_t      screen    = 0; // 0 = time, 1 = alarm, 2 = demo
+char                  temp1[17];
+char                  temp2[17];
+int                   choice    = 0;
 
 //alarm related variables
-uint16_t  dist = 0xffff;
-unsigned long dur;
-const uint16_t turn_time   = 700;    // milliseconds, 700 = hattuvakio
+uint16_t        dist      = 0xffff;
+unsigned long   dur;
+const uint16_t  turn_time = 700;    // milliseconds, 700 = hattuvakio
 
 bool alarm            = true;
 bool turn_right_bool  = false;          // for motors
@@ -55,7 +52,11 @@ void setup()
   pinMode(piezo_pin2, OUTPUT);
   pinMode(rot_pin1,   INPUT_PULLUP);
   pinMode(rot_pin2,   INPUT_PULLUP);
-  pinMode(rot_button, INPUT_PULLUP);
+  pinMode(rot_button, INPUT_PULLUP); // PD0, RXD, PCINT16
+  // The pin change interrupt PCI2 will trigger if any enabled PCINT[23:16] pin toggles.
+  // The PCMSK2, PCMSK1 and PCMSK0 Registers control which pins contribute to the pin change interrupts
+  PCICR |= 0b00000100; //PCIE2: Pin Change Interrupt Enable 2
+  PCMSK2 |= 0b00000001;
   pinMode(motorA_ena, OUTPUT);
   pinMode(motorB_ena, OUTPUT);
   pinMode(motorA_in1, OUTPUT);
@@ -73,13 +74,20 @@ void setup()
   stop_motors();
   set_time(0,0);
   set_alarm(0,1);
+  sei();
+}
+
+ISR(PCINT2_vect)
+{
+  rot_press = digitalRead(rot_button);
+  // delay(5);
 }
 
 void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    if (digitalRead(rot_button) == 1)
+    if (digitalRead(rot_button) == HIGH)
     {
       Alarm.delay(25);
       break;
@@ -116,8 +124,15 @@ void menu() {
     sprintf(temp2, "                ");
   }
   else if(rot_pos % 3 == 1) {
-    sprintf(temp1, "Alarm time %02d:%02d", alarm_h, alarm_min);
-    sprintf(temp2, "Alarm on/off");
+    sprintf(temp1, "Alarm time %02d:%02d", alarm_time[0], alarm_time[1]);
+    if (alarm == true)
+    {
+      sprintf(temp2, "    Alarm ON    ");
+    }
+    else
+    {
+      sprintf(temp2, "    Alarm OFF   ");
+    }
   }
   else {
     sprintf(temp1, " Push button to ");
@@ -234,8 +249,8 @@ void calc_distance()
     {
       alarm = false;
     }
-    playsound();
-
+    play_sound();
+    print_alarm();
     // Sets the trigPin on HIGH state for 1 millisecond
     digitalWrite(ultra_trig, HIGH);
     Alarm.delay(1);
@@ -249,7 +264,19 @@ void calc_distance()
   }
 }
 
-void playsound()
+void print_alarm()
+{
+  lcd.clear();
+  sprintf(temp1, " Time is %02d:%02d ", hms[0], hms[1]);
+  sprintf(temp2, "WAKE THE FUCK UP");
+  
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  lcd.setCursor(0, 1);
+  lcd.print(temp2);
+}
+
+void play_sound()
 {
   digitalWrite(piezo_pin2, LOW);
   tone(piezo_pin1, 2500, 50);     // 2500 Hz pwm for 50 ms
@@ -378,6 +405,8 @@ void select_alarm()
     {
       sprintf(temp2, "       OFF      ");
     }
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
     Alarm.delay(5);
   }
   if ((rot_pos - rot_pos_offset) % 2 == 0)
@@ -393,7 +422,7 @@ void select_alarm()
   // Alarm ON/OFF select done
 
   set_alarm(new_hours, new_mins);
-  rot_pos -= rot_pos % 3 + 1; // returning rot_pos value to match alarm screen
+  rot_pos = rot_pos - rot_pos % 3 + 1; // returning rot_pos value to match alarm screen
 }
 
 void loop()
