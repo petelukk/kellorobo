@@ -28,7 +28,7 @@ const uint8_t ultra_trig = 13;    // ultrasonic sensor pins
 const uint8_t ultra_echo = 12;
 
 // menu related
-volatile int rot_pos = 128;
+volatile unsigned int rot_pos = 128;
 volatile uint8_t screen = 0; // 0 = time, 1 = alarm, 2 = demo
 char temp1[17];
 char temp2[17];
@@ -75,16 +75,11 @@ void setup()
   set_alarm(0,1);
 }
 
-int click() // Function to detect click on rotary encoder
-{
-  return digitalRead(rot_button);
-}
-
 void releaseClick() // Function to wait until user releases button
 {
   while(1)
   {
-    if (click() == 1)
+    if (digitalRead(rot_button) == 1)
     {
       Alarm.delay(25);
       break;
@@ -113,6 +108,7 @@ void myEncoder()
 }
 
 void menu() {
+  // adding releaseClick can help if bugs
   lcd.clear();
 
   if(rot_pos % 3 == 0) {
@@ -134,11 +130,11 @@ void menu() {
   Alarm.delay(50);
   if (digitalRead(rot_button) == LOW)      // pin is low when button is pressed
   {
-    if(rot_pos % 3 == 0){
-      ; // call time setting function
+    if(rot_pos % 3 == 0) {
+      select_time(); // call time select function
     }
-    else if (rot_pos % 3 == 1){
-      ; // call alarm setting function
+    else if (rot_pos % 3 == 1) {
+      select_alarm(); // call alarm select function
     }
     else
     {
@@ -150,62 +146,6 @@ void menu() {
   }
 }
 
-void demodrive(int direction)
-{
-  lcd.clear();
-  lcd.print("CLICK!");
-  
-  digitalWrite(motorA_ena, HIGH);
-  digitalWrite(motorB_ena, HIGH);
-  
-  if (direction == 1) // Forward
-  {
-    digitalWrite(motorA_in1, HIGH);
-    digitalWrite(motorA_in2, LOW);
-    digitalWrite(motorB_in3, HIGH);
-    digitalWrite(motorB_in4, LOW);
-    
-    Alarm.delay(2000);
-  }
-  
-  else if (direction == 2) // Backward
-  {
-    digitalWrite(motorA_in1, LOW);
-    digitalWrite(motorA_in2, HIGH);
-    digitalWrite(motorB_in3, LOW);
-    digitalWrite(motorB_in4, HIGH);
-    
-    Alarm.delay(2000);
-  }
-  
-  else if (direction == 4) // Left
-  {
-    digitalWrite(motorA_ena, LOW);
-    
-    digitalWrite(motorB_in3, HIGH);
-    digitalWrite(motorB_in4, LOW);
-    
-    Alarm.delay(700);
-  }
-  
-  else if (direction == 3) // Right
-  {
-    digitalWrite(motorA_in1, HIGH);
-    digitalWrite(motorA_in2, LOW);
-    
-    digitalWrite(motorB_ena, LOW);
-    
-    Alarm.delay(700);
-  }
-
-  digitalWrite(motorA_ena, LOW);
-  digitalWrite(motorB_ena, LOW);
-  digitalWrite(motorA_in1, LOW);
-  digitalWrite(motorA_in2, LOW);
-  digitalWrite(motorB_in3, LOW);
-  digitalWrite(motorB_in4, LOW);
-}
-
 void set_time(int hours, int minutes)
 {
   TimeElements tm;
@@ -214,7 +154,7 @@ void set_time(int hours, int minutes)
   tm.Day = 1;
   tm.Hour = hours;
   tm.Minute = minutes;
-  tm.Second = 55;
+  tm.Second = 55;         // Set to 0 in final version!
   setTime(makeTime(tm));
 }
 
@@ -331,6 +271,129 @@ void alarm_on() // called when alarm rings
     dist = 0xffff;
   }
   stop_motors();
+}
+
+void select_time()
+{
+  releaseClick();
+  lcd.clear();
+
+  // Start selecting hours
+  unsigned int rot_pos_offset = rot_pos;
+  unsigned int new_hours = (hms[0] + rot_pos - rot_pos_offset) % 24;
+  sprintf(temp1, "   Set hours    ");
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  // Alarm.delay(150);
+  while(digitalRead(rot_button) == HIGH)
+  {
+    sprintf(temp2, "     %02d:%02d      ", (hms[0] + rot_pos - rot_pos_offset) % 24, hms[1]);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    Alarm.delay(5);
+  }
+  new_hours = (hms[0] + rot_pos - rot_pos_offset) % 24;
+  Alarm.delay(15);
+  // Hour selecting done
+
+  releaseClick();
+
+  // Start selecting minutes
+  rot_pos_offset = rot_pos;
+  unsigned int new_mins  = (hms[1] + rot_pos - rot_pos_offset) % 60;
+  sprintf(temp1, "  Set minutes   ");
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  while(digitalRead(rot_button) == HIGH)
+  {
+    sprintf(temp2, "     %02d:%02d      ", new_hours, (hms[1] + rot_pos - rot_pos_offset) % 60);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    Alarm.delay(5);
+  }
+  new_mins = (hms[1] + rot_pos - rot_pos_offset) % 60;
+  Alarm.delay(15);
+  releaseClick();
+  // Minutes selecting done
+
+  set_time(new_hours, new_mins);
+  rot_pos -= rot_pos % 3; // returning rot_pos value to match time screen
+}
+
+void select_alarm()
+{
+  releaseClick();
+  lcd.clear();
+
+  // Start selecting hours
+  unsigned int rot_pos_offset = rot_pos;
+  unsigned int new_hours = (alarm_time[0] + rot_pos - rot_pos_offset) % 24;
+  sprintf(temp1, " Set alarm hour ");
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  // Alarm.delay(150);
+  while(digitalRead(rot_button) == HIGH)
+  {
+    sprintf(temp2, "     %02d:%02d      ", (alarm_time[0] + rot_pos - rot_pos_offset) % 24, alarm_time[1]);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    Alarm.delay(5);
+  }
+  new_hours = (alarm_time[0] + rot_pos - rot_pos_offset) % 24;
+  Alarm.delay(15);
+  // Hour selecting done
+
+  releaseClick();
+
+  // Start selecting minutes
+  rot_pos_offset = rot_pos;
+  unsigned int new_mins  = (alarm_time[1] + rot_pos - rot_pos_offset) % 60;
+  sprintf(temp1, "Set alarm minute");
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  while(digitalRead(rot_button) == HIGH)
+  {
+    sprintf(temp2, "     %02d:%02d      ", new_hours, (alarm_time[1] + rot_pos - rot_pos_offset) % 60);
+    lcd.setCursor(0, 1);
+    lcd.print(temp2);
+    Alarm.delay(5);
+  }
+  new_mins = (alarm_time[1] + rot_pos - rot_pos_offset) % 60;
+  Alarm.delay(15);
+  releaseClick();
+  // Minutes selecting done
+
+  // Select Alarm ON/OFF
+  rot_pos_offset = rot_pos;
+  sprintf(temp1, "Set Alarm ON/OFF");
+  lcd.setCursor(0, 0);
+  lcd.print(temp1);
+  while(digitalRead(rot_button) == HIGH)
+  {
+    if ((rot_pos - rot_pos_offset) % 2 == 0)
+    {
+      sprintf(temp2, "       ON       ");
+    }
+    else
+    {
+      sprintf(temp2, "       OFF      ");
+    }
+    Alarm.delay(5);
+  }
+  if ((rot_pos - rot_pos_offset) % 2 == 0)
+  {
+    alarm = true;
+  }
+  else
+  {
+    alarm = false;
+  }
+  Alarm.delay(15);
+  releaseClick();
+  // Alarm ON/OFF select done
+
+  set_alarm(new_hours, new_mins);
+  rot_pos -= rot_pos % 3 + 1; // returning rot_pos value to match alarm screen
 }
 
 void loop()
