@@ -131,7 +131,23 @@ void menu() {
   lcd.print(temp1);
   lcd.setCursor(0, 1);
   lcd.print(temp2);
-  Alarm.delay(200);
+  Alarm.delay(50);
+  if (digitalRead(rot_button) == LOW)      // pin is low when button is pressed
+  {
+    if(rot_pos % 3 == 0){
+      ; // call time setting function
+    }
+    else if (rot_pos % 3 == 1){
+      ; // call alarm setting function
+    }
+    else
+    {
+      bool temp_alarm = alarm;  // save original value of alarm variable
+      alarm = true;             // set alarm to true so alarm_on functions properly
+      alarm_on();               // call alarm_on as demo
+      alarm = temp_alarm;       // return alarm variable to original state
+    }
+  }
 }
 
 void demodrive(int direction)
