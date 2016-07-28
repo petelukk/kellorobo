@@ -25,7 +25,7 @@ const uint8_t ultra_echo = 12;
 
 // menu related
 volatile unsigned int rot_pos   = 128;
-bool                  rot_press = HIGH;
+bool                  rot_sw = false;
 volatile uint8_t      screen    = 0; // 0 = time, 1 = alarm, 2 = demo
 char                  temp1[17];
 char                  temp2[17];
@@ -34,7 +34,7 @@ int                   choice    = 0;
 //alarm related variables
 uint16_t        dist      = 0xffff;
 unsigned long   dur;
-const uint16_t  turn_time = 700;    // milliseconds, 700 = hattuvakio
+const uint16_t  turn_time = 1700;    // milliseconds, 700 = hattuvakio
 
 bool alarm            = true;
 bool turn_right_bool  = false;          // for motors
@@ -79,8 +79,10 @@ void setup()
 
 ISR(PCINT2_vect)
 {
-  rot_press = digitalRead(rot_button);
-  // delay(5);
+  if (digitalRead(rot_button) == LOW)
+  {
+    rot_sw = true;
+  }
 }
 
 void releaseClick() // Function to wait until user releases button
@@ -90,6 +92,7 @@ void releaseClick() // Function to wait until user releases button
     if (digitalRead(rot_button) == HIGH)
     {
       Alarm.delay(25);
+      rot_sw = false;
       break;
     }
   }
@@ -143,8 +146,9 @@ void menu() {
   lcd.setCursor(0, 1);
   lcd.print(temp2);
   Alarm.delay(50);
-  if (digitalRead(rot_button) == LOW)      // pin is low when button is pressed
+  if (rot_sw == true)
   {
+    rot_sw = false;
     if(rot_pos % 3 == 0) {
       select_time(); // call time select function
     }
@@ -245,9 +249,11 @@ void calc_distance()
 {
   while (dist >= 15)        // in cm
   {
-    if (digitalRead(rot_button) == LOW)      // pin is low when button is pressed
+    if (rot_sw == true)
     {
+      rot_sw = false;
       alarm = false;
+      break;
     }
     play_sound();
     print_alarm();
@@ -312,13 +318,14 @@ void select_time()
   lcd.setCursor(0, 0);
   lcd.print(temp1);
   // Alarm.delay(150);
-  while(digitalRead(rot_button) == HIGH)
+  while(rot_sw == false)
   {
     sprintf(temp2, "     %02d:%02d      ", (hms[0] + rot_pos - rot_pos_offset) % 24, hms[1]);
     lcd.setCursor(0, 1);
     lcd.print(temp2);
     Alarm.delay(5);
   }
+  rot_sw = false;
   new_hours = (hms[0] + rot_pos - rot_pos_offset) % 24;
   Alarm.delay(15);
   // Hour selecting done
@@ -331,13 +338,14 @@ void select_time()
   sprintf(temp1, "  Set minutes   ");
   lcd.setCursor(0, 0);
   lcd.print(temp1);
-  while(digitalRead(rot_button) == HIGH)
+  while(rot_sw == false)
   {
     sprintf(temp2, "     %02d:%02d      ", new_hours, (hms[1] + rot_pos - rot_pos_offset) % 60);
     lcd.setCursor(0, 1);
     lcd.print(temp2);
     Alarm.delay(5);
   }
+  rot_sw = false;
   new_mins = (hms[1] + rot_pos - rot_pos_offset) % 60;
   Alarm.delay(15);
   releaseClick();
@@ -359,13 +367,14 @@ void select_alarm()
   lcd.setCursor(0, 0);
   lcd.print(temp1);
   // Alarm.delay(150);
-  while(digitalRead(rot_button) == HIGH)
+  while(rot_sw == false)
   {
     sprintf(temp2, "     %02d:%02d      ", (alarm_time[0] + rot_pos - rot_pos_offset) % 24, alarm_time[1]);
     lcd.setCursor(0, 1);
     lcd.print(temp2);
     Alarm.delay(5);
   }
+  rot_sw = false;
   new_hours = (alarm_time[0] + rot_pos - rot_pos_offset) % 24;
   Alarm.delay(15);
   // Hour selecting done
@@ -378,13 +387,14 @@ void select_alarm()
   sprintf(temp1, "Set alarm minute");
   lcd.setCursor(0, 0);
   lcd.print(temp1);
-  while(digitalRead(rot_button) == HIGH)
+  while(rot_sw == false)
   {
     sprintf(temp2, "     %02d:%02d      ", new_hours, (alarm_time[1] + rot_pos - rot_pos_offset) % 60);
     lcd.setCursor(0, 1);
     lcd.print(temp2);
     Alarm.delay(5);
   }
+  rot_sw = false;
   new_mins = (alarm_time[1] + rot_pos - rot_pos_offset) % 60;
   Alarm.delay(15);
   releaseClick();
@@ -395,7 +405,7 @@ void select_alarm()
   sprintf(temp1, "Set Alarm ON/OFF");
   lcd.setCursor(0, 0);
   lcd.print(temp1);
-  while(digitalRead(rot_button) == HIGH)
+  while(rot_sw == false)
   {
     if ((rot_pos - rot_pos_offset) % 2 == 0)
     {
@@ -409,6 +419,7 @@ void select_alarm()
     lcd.print(temp2);
     Alarm.delay(5);
   }
+  rot_sw = false;
   if ((rot_pos - rot_pos_offset) % 2 == 0)
   {
     alarm = true;
