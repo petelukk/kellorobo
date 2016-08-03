@@ -193,3 +193,14 @@ Separate programming of menu, time and alarm. All of those were combined in the 
 13.7.2016 3h
 Debugging and cleaning of combined code, making code snippets to work together.
 Refining of continous track and its gears.
+
+20.7.2016 3h
+Changed rot_button to work via interrupt, instead of polling.
+Fixed free-running continous track on one side. Attached gears properly.
+
+28.8.2016 3h
+Developing user interface, added ability to change time and alarm time, and to toggle alarm on/off.
+Having fun by watching robot to run around and avoid obstacles or climbing over them.
+
+3.8.2016 3h
+
