@@ -1,0 +1,32 @@
+Source code
+
+Kellorobo needs some intelligence under its hood to operate. It needs code that interacts with environment; uses motors, display, piezo, ultrasonic sensor and rotary encoder.
+
+
+May 2016
+
+Started working on source code.
+
+Baby steps... Testing how to interact with hardware in software, found out that selected backlight pin cannot provide power.
+
+
+June 2016
+
+Battling with rotary encoder, it was really hard to get good results out of it.
+First idea was just to quickly test it by polling, later moved to interrupt based interpretation of encoder, which still was troubled. Best results were got by running for-loop based poll in interrupt.
+
+Rotary encoder's button was completetely unusable at first, but later it was found out that our pin definition was wrong.
+
+
+July 2016
+
+Separated software in menu/user interface, time running and alarm functions. Later all of these were combined. After cleaning and debugging code snippets started to work together surprisingly well.
+
+Rotary button was changed from polling to interrupt-based reading.
+
+User interface was further developed to have ability to set time and alarm, as well as to toggle alarm on/off.
+
+
+August 2016
+
+Experimenting with piezo, found out that it is too quiet.
