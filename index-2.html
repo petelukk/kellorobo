@@ -1,0 +1,896 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>Kellorobo by minajee</title>
+	<meta name="generator" content="LibreOffice 5.1.4.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2016-08-10T19:59:20.029792177"/>
+	<meta name="" content=""/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="javascripts/respond.js"></script>
+	<!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+	<style type="text/css">
+		h3.cjk { font-family: "Noto Sans CJK SC Regular" }
+		h3.ctl { font-family: "FreeSans" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a href="https://github.com/minajee/kellorobo">View
+		On GitHub</a> 
+		</p>
+	</ul>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a href="https://github.com/minajee/kellorobo/zipball/master">ZIP</a>
+				</p>
+	</ul>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a href="https://github.com/minajee/kellorobo/tarball/master">TAR</a>
+				</p>
+	</ul>
+	<p><br/>
+<br/>
+
+	</p>
+</div>
+<div id="title" dir="ltr">
+	<h1><!-- end header -->Kellorobo</h1>
+	<p>Documentation of University of Oulu course 3D fabrication and
+	prototyping 2016</p>
+	<p>Mitja Kärki (mitjakarki), Antti Rytilahti (naatti), Petri
+	Lukkarinen (minajee)</p>
+	<p>https://github.com/minajee/kellorobo</p>
+	<hr/>
+
+	<p>Hosted on GitHub Pag<font color="#000000">es</font></p>
+</div>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+<h3 class="western"><span style="background: #ff3399">DOCUMENTATION</span></h3>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC3"></a><i><span style="background: #3399ff">Progress
+			log in git</span></i></p>
+		</td>
+	</tr>
+</table>
+<p><br/>
+<br/>
+
+</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC5"></a><a name="LC4"></a><i><u>SOFTWARE:</u></i></p>
+			<p>Source code</p>
+			<p>Kellorobo needs some intelligence under its hood to operate. It
+			needs code that interacts with environment; uses motors, display,
+			piezo, ultrasonic sensor and rotary encoder.</p>
+			<p>May 2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Started working on source code.</p>
+			<p>Baby steps... Testing how to interact with hardware in
+			software, found out that selected backlight pin cannot provide
+			power.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>June 2016</p>
+			<p>Battling with rotary encoder, it was really hard to get good
+			results out of it.</p>
+			<p>First idea was just to quickly test it by polling, later moved
+			to interrupt based interpretation of encoder, which still was
+			troubled. Best results were got by running for-loop based poll in
+			interrupt.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Rotary encoder's button was completely unusable at first, but
+			later it was found out that our pin definition was wrong.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>July 2016</p>
+			<p>Separated software in menu/user interface, time running and
+			alarm functions. Later all of these were combined. After cleaning
+			and debugging code snippets started to work together surprisingly
+			well.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Rotary button was changed from polling to interrupt-based
+			reading.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>User interface was further developed to have ability to set
+			time and alarm, as well as to toggle alarm on/off.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>August 2016</p>
+			<p>Experimenting with piezo, found out that it is too quiet.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><u><b>HARDWARE:</b></u></p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>First frame:</p>
+			<p>8.4.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>We designed and assembled our first proto for a frame.</p>
+			<p>It is made out of 4mm plywood and designed with Inkscape's
+			&quot;Tabbed box maker&quot; -extension.</p>
+			<p>The proto case came out a bit too narrow since the motors
+			barely fit inside.</p>
+			<p>We observed that the shaft on our motors are too short and the
+			frame must have a hole not just for the shaft, but the whole
+			gearbox.</p>
+			<p>That's the best way to have more accessible shaft on a quick
+			schedule.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photos:</p>
+			<p>https://github.com/minajee/kellorobo/commit/b439d73c7e4ea52fefee4d4d5034f8a7b35bb107#diff-e014cbcdde8bb313d86964fa1ce378a4</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work files:</p>
+			<p>https://github.com/minajee/kellorobo/commit/74d22f9f316b8c5ca32c1192a2f953d998de79a5#diff-5733cebc9dafcf89803ee458dcfde637</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Final frame:</p>
+			<p>19.4.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Designed a new frame with a more tank-like look.</p>
+			<p>The new frame has chamfered ends, a better placement for the
+			motors and more compact design.</p>
+			<p>Drawn with inkscape. We cut the frame parts from 4mm plywood
+			and assembled it using some wood glue for the joints.</p>
+			<p>The motors fit quite nicely and the overall look is much better
+			than in the first proto.</p>
+			<p>There is no lid in the frame since it will be 3D-printed.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photo:</p>
+			<p>https://github.com/minajee/kellorobo/commit/018625ba336d3f6e999a34979a40850befa10d69</p>
+			<p>https://github.com/minajee/kellorobo/commit/dde10c66f4365e4fb8932312f1fa12e5db3ef59a</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work files:</p>
+			<p>https://github.com/minajee/kellorobo/commit/f5924ef09552002ed55b75c43ee6904ea76f37c8#diff-5733cebc9dafcf89803ee458dcfde637</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Case lid:</p>
+			<p>11.5.2016, 26.5.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Only a single proto was made of lid, since the part is mostly
+			for looks.</p>
+			<p>Finished the top lid design and printed it with leapfrog
+			creatr. The print took 3h 17 min with 0.35mm layer thickness to
+			complete.</p>
+			<p>Since the part is relatively large, it came away from the print
+			bed a bit. Anyway the print managed to complete with poorish
+			quality.</p>
+			<p>15 meters of orange 1.75 mm PLA filament was used.</p>
+			<p>Photos:</p>
+			<p>https://github.com/minajee/kellorobo/commit/bda1e3bebcfeac88cd54d9521e9ee2cf57deacb1</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work files:</p>
+			<p>https://github.com/minajee/kellorobo/commit/8879463a9872b062b11b27392cf75194204512c9</p>
+			<p>https://github.com/minajee/kellorobo/commit/1211a244b87fd5627d5912f05ba880987185bb3a</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Motor holder:</p>
+			<p>21.4.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Designed a part that holds the motors in place. Used FreeCAD.
+			The holder will be fastened to the bottom of the case with screws.</p>
+			<p>Did not 3D-print the part yet since the other printer is broken
+			and the other was reserved at the time.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photos:</p>
+			<p>https://github.com/minajee/kellorobo/commit/00e6d004f41a75d1744eaad3a38b58b9656d1369</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work files:</p>
+			<p>https://github.com/minajee/kellorobo/commit/3746ac202f2f66431eb920fe414c569af231e17b</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>29.4.2016</p>
+			<p>Printed the motor holder that was designed last time. Used the
+			Formlabs Form 2 SLA 3D-printer with clear resin.</p>
+			<p>The print came out really nice considering that I used the
+			roughest (0.10mm) layer thickness. The print took 2 hours to
+			complete.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photo:</p>
+			<p>https://github.com/minajee/kellorobo/commit/670cc17d72a2f93e794704186b70ea18edef07d1</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Motor holder support:</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>3.5.2016</p>
+			<p>Attached the 3D-printed motor holder but it was too flexible so
+			we</p>
+			<p>made a motor holder support piece from 4mm acrylic sheet on top
+			of the motor holder.</p>
+			<p>Used inkscape to design the part. Some double sided tape was
+			used to help the motors stay in place.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work file:</p>
+			<p>https://github.com/minajee/kellorobo/commit/40998bae60bafc119d0c3bc0d7f89c7fea9eaf02#diff-5733cebc9dafcf89803ee458dcfde637</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photo (last photo in commit):</p>
+			<p>https://github.com/minajee/kellorobo/commit/dde10c66f4365e4fb8932312f1fa12e5db3ef59a</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Rotary encoder knob:</p>
+			<p>26.5.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Designed a knob for the rotary encoder so that it's easier to
+			turn. 
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Work file:</p>
+			<p><a href="https://github.com/minajee/kellorobo/commit/5b9818eb7c36cf3f0a0bba42a8bcabab4b5cea96">https://github.com/minajee/kellorobo/commit/5b9818eb7c36cf3f0a0bba42a8bcabab4b5cea96</a></p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Whole robot mechanics:</p>
+			<p>7.6.2016</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Assembled the case and fit all the parts in.</p>
+			<p>The top lid print quality was absolutely horrible, so some of
+			the holes needed to be carved a bit bigger.</p>
+			<p>We also printed the knob for the rotary encoder. Took about 15
+			minutes with the Leapfrog.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>26.6.2016   1h</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Assembled the robot and took some pictures.</p>
+			<p><br/>
+<br/>
+
+			</p>
+			<p>Photos:</p>
+			<p><a href="https://github.com/minajee/kellorobo/commit/bda1e3bebcfeac88cd54d9521e9ee2cf57deacb1">https://github.com/minajee/kellorobo/commit/bda1e3bebcfeac88cd54d9521e9ee2cf57deacb1</a></p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC6"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC7"></a>Total hours spent on project: 90</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC8"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC9"></a><a href="https://www.youtube.com/embed/5WewnZcXmrQ">https://www.youtube.com/embed/5WewnZcXmrQ</a>
+			 continuous track PETRI HUOM!!</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC10"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC11"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC12"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC13"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC14"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC15"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC16"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC17"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC18"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC19"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC20"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC21"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC22"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC23"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC24"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC25"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC26"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC27"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC28"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC29"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC30"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC31"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC32"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC33"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC34"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC35"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC36"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC37"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC38"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC39"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC40"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC41"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC42"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC43"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC44"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC45"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC46"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC47"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC48"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC49"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC50"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC51"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC52"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC53"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC54"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC55"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC56"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC57"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC58"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC59"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC60"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC61"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC62"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC63"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC64"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC65"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC66"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC67"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC68"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC69"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC70"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC71"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC72"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC73"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC74"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><a name="LC75"></a><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><br/>
+
+			</p>
+		</td>
+	</tr>
+</table>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<td style="border: none; padding: 0in">
+			<p><br/>
+
+			</p>
+		</td>
+	</tr>
+</table>
+<p><br/>
+<br/>
+
+</p>
+</body>
+</html>
