@@ -23,19 +23,53 @@
 
 <p><a href="https://github.com/minajee/kellorobo">https://github.com/minajee/kellorobo</a></p>
 
-<p>Hosted on GitHub Pages</p>
+<h1>DOCUMENTATION</h1>
 
-<p>DOCUMENTATION</p>
+<h2>Electronics</h2>
+<img src="images/skema.png">
+<p>The schematic we ended up processing to a PCB ^</p>
+<p>The robot needs some controls and a display for setting of time. Also a piezo for alarm and motors and a motor controller are needed. We used a hd44780 2x16 character display and a rotary encoder with a press button as controls. The provided motor controller A4953 was not suitable to voltage levels provided by the 7.4V LiPo battery so we ended up using a l298 dual h-bridge. The PCB was drawn with kicad and milled with the Fablabs Roland Monofab miniature mill. PCB was two sided and we managed to get good cutting quality and accuracy.</p>
+<img src="images/pcb_unpopulated.jpg">
+<p>The PCB fresh out of the mill ^</p>
+<p>We needed to take attenion on turning over the PCB when milling the other side so its aligned with the other side. Also when designing two sided PCB to be milled in Fablab you have to make separate vias (holes that should have some conducting material to trasfer electricity to other side) since atleast the time we manufactured our PCB there were no possibility to plate the holes with copper. Dimensons of the PCB were about 130x50mm. It took about one hour to cut after we got the parameters correct for the mill.</p>
+<img src="images/pcb_populated.jpg">
+<p>PCB almost populated  ^</p>
+<p>Fabrication files committed in this commit: 37f5d2f7b62b3943521e752c83a12c05746b1eac<br>
+Author: Petri Lukkarinen</p>
 
-<p>Progress log in git</p>
+<p>We used http://fabmodules.org/ to generate "Roland Mill" .rml files from images. Fabrication files used can be found here: </p>
+<a href ="https://github.com/minajee/kellorobo/tree/master/pcb/pcb_f%C3%A4p_files/final">PCB fabrication files</a>
 
-<p>Electronics</p>
+<h2>Continuous track</h2>
 
-<p>The robot needs some controls and a display for setting of time. Also piezo for alarm and motors and motor controller are needed. We used a hd44780 2x16 character display and a rotary encoder with pressbutton as controls. The provided motor controller A4953 was not well The PCB was drawn with kicad and milled with the Fablabs Roland Monofab miniature mill. PCB was two sided and we managed to get good cutting quality and accuracy. We needed to take attenion on turning over the PCB when milling the other side so its aligned with the other side. Also when designing two sided PCB to be milled in Fablab you have to make separate vias (holes that should have some conducting material to trasfer electricity to other side) since atleast the time we manufactured our PCB there were no possibility to plate the holes with copper. Dimensons of the PCB were about 130x50mm. It took about one hour to cut after we got the parameters correct for the mill. commit 37f5d2f7b62b3943521e752c83a12c05746b1eac</p>
+<p>We chose to make continuous track instead of wheels because continuos track is of course superior compared to wheels or anything else ;).</p>
 
-<img src="images/är.jpg"
+<img src="images/ketju-ja-hampikkaat-rungossa.jpg">
+<p> Continuous track mounted on the frame ^</p>
+<p>
+We used 4mm plywood and about 1,5mm thick aluminium wire to manufacture the track elements and pins for them.
+About 30x30 cm piece of plywood is needed so not much materials required, but the construction required lots of work.
+The pin holes were designed so that the pin would attach without glue.
+The outer elements were made to have tight holes and Inner elements loose hole.
+</p>
+<img src="images/freecadilla_sproketti.png">
+<p>Sprocket was drawn with not so intuitive freecad ^</p>
+<img src="images/cont_track_elements.jpg">
+<p>The bits from the track was made of ^</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/5WewnZcXmrQ" frameborder="0" allowfullscreen></iframe>
+<p>Track works very smoothly ^</p>
 
-<p>SOFTWARE:</p>
+<p>Fabrication files committed in this commit: c26b3dcfd67d2d357d8763afda74c40375699f2c<br>
+Author: Petri Lukkarinen</p>
+
+<p>We used freecad to design the parts and inkscape to make pdf files suitable for cutting with laser cutter. Fabrication files used can be found here: </p>
+<a href ="https://github.com/minajee/kellorobo/blob/master/continuous_track/sprocket_set.pdf">Sprocket set</a>
+<br>
+<a href ="https://github.com/minajee/kellorobo/blob/master/continuous_track/track_30_elements.pdf">Elements for continuos track (you may need to cut multible sets..)</a>
+
+
+
+<h2>SOFTWARE:</h2>
 
 <p>Source code</p>
 
